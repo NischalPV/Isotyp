@@ -1,260 +1,204 @@
-# Project-Isotyp
+# Isotyp - Enterprise Data Architecture Platform
 
-## Overview
+[![.NET](https://img.shields.io/badge/.NET-8.0-purple)](https://dotnet.microsoft.com/)
+[![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
-**Project-Isotyp** is an enterprise-grade **Data Architecture & Onboarding Platform** designed to help teams ingest, understand, govern, and safely evolve data over time.
+Isotyp is an enterprise data architecture platform designed with safety, clarity, and compliance at its core. Unlike traditional ETL tools, Isotyp provides a comprehensive solution for managing data schemas, validating data quality, and evolving your data models over time—all while keeping sensitive data secure through local agent-based processing.
 
-Unlike traditional ETL tools, Project-Isotyp treats data architecture as a **living, versioned system**. It builds a canonical understanding of data meaning and structure, continuously re-validates that understanding as data evolves, and enables deliberate, human-approved changes to schemas and application models with full auditability and guaranteed rollback.
+## Key Features
 
-Project-Isotyp does **not** autonomously mutate production systems. Instead, it empowers architects, developers, and operators to evolve data safely and intentionally.
+### 🔒 Local-First Data Processing
+- **Data never leaves your environment**: All data processing runs locally via agents
+- **Cloud sees metadata only**: Connection strings and actual data stay local
+- **Secure by design**: Sensitive data is processed where it lives
 
----
+### 📐 Versioned Schema Management
+- **Canonical understanding**: Forms a single source of truth for data schemas
+- **Semantic versioning**: Major.Minor.Patch versioning for all schema changes
+- **Re-validation over time**: Continuously validates data against the canonical schema
+- **ORM synchronization**: Updates database and ORM mappings together
 
-## Core Problem
+### 🤖 AI-Assisted Evolution
+- **Pattern recognition**: AI analyzes data patterns to suggest schema improvements
+- **Never auto-applies**: AI suggestions require explicit human review
+- **Confidence scoring**: Each suggestion includes a confidence score
+- **Additive preference**: Favors additive changes over destructive ones
 
-Modern systems face recurring challenges when onboarding and evolving data:
+### ✅ Multi-Layer Approval System
+All schema changes require explicit approval through multiple layers:
 
-* Data arrives from heterogeneous sources with unclear or shifting semantics
-* One-time migrations create brittle schemas that do not age well
-* Schema drift accumulates silently until it causes production issues
-* Application ORM models and databases fall out of sync
-* Automated systems are distrusted because rollback and accountability are unclear
+1. **Technical Review**: Validates schema correctness and technical feasibility
+2. **Business Review**: Assesses business impact and alignment
+3. **Data Governance**: Ensures compliance and security requirements
 
-Project-Isotyp addresses these problems by making data understanding, governance, and evolution **explicit, explainable, and reversible**.
+### 🔐 Schema Locking
+- **No Lock**: Schema can be freely modified
+- **Soft Lock**: AI suggestions allowed, but no auto-apply
+- **Additive Only**: Only new fields/tables can be added
+- **Hard Lock**: No modifications allowed
 
----
+### 📋 Full Auditability
+- **Complete audit trail**: Every action is logged
+- **Correlation tracking**: Related operations are linked
+- **State snapshots**: Before/after states preserved
+- **Rollback-safe**: All changes can be reversed
 
-## What Project-Isotyp Is (and Is Not)
+## Architecture
 
-### ✅ What It Is
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                         Cloud Layer                              │
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────────────────┐ │
+│  │  API (REST) │  │  Metadata   │  │   Approval Workflows    │ │
+│  │             │  │   Storage   │  │                         │ │
+│  └─────────────┘  └─────────────┘  └─────────────────────────┘ │
+│                           │                                     │
+│                  (Metadata Only)                                │
+└───────────────────────────┼─────────────────────────────────────┘
+                            │
+┌───────────────────────────┼─────────────────────────────────────┐
+│                    Local Agents                                  │
+│  ┌─────────────────────────────────────────────────────────────┐│
+│  │  Data Processing  │  Validation  │  Pattern Analysis        ││
+│  │       (Local)     │   (Local)    │      (Local)             ││
+│  └─────────────────────────────────────────────────────────────┘│
+│                            │                                     │
+│  ┌─────────────────────────────────────────────────────────────┐│
+│  │            Local Data Sources (SQL, Files, etc.)            ││
+│  └─────────────────────────────────────────────────────────────┘│
+└─────────────────────────────────────────────────────────────────┘
+```
 
-* A platform for **canonical data understanding**
-* A governed, versioned system for **data model evolution**
-* A bridge between **raw data ingestion and production-ready schemas**
-* A safety-first system where **AI advises and humans decide**
+## Project Structure
 
-### ❌ What It Is Not
+```
+Isotyp/
+├── src/
+│   ├── Isotyp.Core/           # Domain entities, enums, interfaces
+│   ├── Isotyp.Application/    # Services, DTOs, business logic
+│   ├── Isotyp.Infrastructure/ # EF Core, repositories, data access
+│   ├── Isotyp.Agent/          # Local data processing agent
+│   └── Isotyp.Api/            # REST API for cloud operations
+├── tests/
+│   ├── Isotyp.Core.Tests/
+│   └── Isotyp.Application.Tests/
+└── Isotyp.sln
+```
 
-* Not a low-code ETL builder
-* Not a self-healing or auto-mutating schema tool
-* Not an analytics or BI platform
-* Not a one-time migration utility
+## Getting Started
 
-ETL is a **subsystem**, not the product.
+### Prerequisites
+- .NET 8.0 SDK or later
+- SQLite (default) or your preferred database
 
----
+### Building
+
+```bash
+# Clone the repository
+git clone https://github.com/NischalPV/Isotyp.git
+cd Isotyp
+
+# Build the solution
+dotnet build
+
+# Run tests
+dotnet test
+```
+
+### Running the API
+
+```bash
+cd src/Isotyp.Api
+dotnet run
+```
+
+The API will be available at `http://localhost:5000` with Swagger documentation.
+
+## API Endpoints
+
+### Data Sources
+- `GET /api/datasources` - List all data sources
+- `POST /api/datasources` - Create a new data source
+- `GET /api/datasources/{id}` - Get data source details
+- `PUT /api/datasources/{id}` - Update a data source
+
+### Schema Versions
+- `GET /api/schemaversions/{id}` - Get schema version
+- `POST /api/schemaversions` - Create new schema version
+- `POST /api/schemaversions/{id}/submit` - Submit for approval
+- `POST /api/schemaversions/{id}/approve?layer={layer}` - Approve at layer
+- `POST /api/schemaversions/{id}/apply` - Apply approved schema
+- `POST /api/schemaversions/{id}/rollback` - Rollback applied schema
+- `POST /api/schemaversions/{id}/lock` - Apply schema lock
+
+### Change Requests
+- `GET /api/schemachangerequests/pending` - Get pending approvals
+- `POST /api/schemachangerequests` - Create change request
+- `POST /api/schemachangerequests/{id}/approve` - Approve/reject
+
+### AI Suggestions
+- `GET /api/aisuggestions/unreviewed` - Get pending AI suggestions
+- `POST /api/aisuggestions/{id}/review` - Accept/reject suggestion
+
+### Agents
+- `GET /api/agents/connected` - Get connected agents
+- `POST /api/agents/heartbeat` - Agent heartbeat
+
+### Audit Logs
+- `GET /api/auditlogs` - Query audit logs
+- `GET /api/auditlogs/entity/{type}/{id}` - Get entity history
 
 ## Core Principles
 
-Project-Isotyp is built on the following non-negotiable principles:
-
-1. **Human authority always wins**
-2. **Nothing changes without explicit approval**
-3. **Rollback must always be possible**
-4. **Models evolve; data is never destroyed by default**
-5. **AI advises; humans decide**
-6. **Stability is preferable to cleverness**
-7. **Trust is more important than automation**
-
-Any feature that violates these principles does not ship.
-
----
-
-## High-Level Architecture
-
-Project-Isotyp consists of two major planes:
-
-### 1. Local Execution Plane (Customer Network)
-
-A **local agent** runs entirely inside the customer’s environment and is responsible for:
-
-* Connecting to local data sources (databases, files)
-* Performing schema discovery and data profiling
-* Executing ETL jobs locally
-* Collecting runtime statistics
-
-**Security guarantees:**
-
-* Secrets never leave the agent
-* Raw data never leaves the network
-* Communication is outbound-only
-
-### 2. Control Plane (Portal)
-
-The control plane:
-
-* Builds canonical data model snapshots
-* Tracks versions and timelines of understanding
-* Performs drift detection and semantic analysis
-* Manages approvals, locks, and governance
-* Orchestrates safe execution on local agents
-
----
-
-## Canonical Data Understanding
-
-Each execution produces a **Model Snapshot**, which represents Project-Isotyp’s current understanding of the data.
-
-A snapshot includes:
-
-* Entities and relationships
-* Cardinalities and constraints
-* Semantic interpretations
-* Confidence scores
-* Explicit reasoning and assumptions
-
-Rules:
-
-* Snapshots are immutable
-* Snapshots are versioned
-* Snapshots represent hypotheses, not absolute truth
-
-Snapshots form a **timeline of architectural understanding**.
-
----
-
-## Continuous Re-Validation & Learning
-
-As data changes over time, Project-Isotyp:
-
-* Re-profiles datasets via the local agent
-* Compares new profiles against prior snapshots
-* Detects semantic drift (cardinality shifts, growth patterns, mutation frequency)
-* Produces **recommendations for review**, not automatic actions
-
-Learning is:
-
-* Stability-biased
-* Memory-aware
-* Resistant to noisy fluctuations
-
----
-
-## Semantic Optimization (Model-Level, Not Just Performance)
-
-Project-Isotyp can suggest modeling improvements such as:
-
-* Normalization or denormalization
-* Entity extraction or consolidation
-* Reference and lookup modeling
-* Temporal pattern modeling
-* Derived vs stored attributes
-* Read vs write model separation
-
-Every recommendation includes:
-
-* Supporting evidence
-* Tradeoffs and risks
-* Expected impact
-
-All suggestions respect user-defined locks and invariants.
-
----
-
-## Governance, Locks & Approvals
-
-### Locks
-
-Users can lock:
-
-* Structural evolution
-* Semantic interpretation
-* Storage behavior
-* Entire entities or schemas
-
-Locked segments:
-
-* Are never reinterpreted
-* Never receive evolution or optimization suggestions
-
-### Multi-Layer Approvals
-
-Changes require explicit approvals, which may include:
-
-1. Data architecture approval
-2. Application / ORM impact approval
-3. Operational / DBA approval
-4. Final execution approval
-
-No approval layer can be bypassed.
-
----
-
-## Schema, ORM & Application Alignment
-
-When changes are approved:
-
-* Database migrations are generated
-* ORM models are updated (initially **PostgreSQL + EF Core**)
-* Additive evolution is the default
-* Breaking changes require explicit opt-in
-
-Schema and application models evolve **together**, not independently.
-
----
-
-## Rollback & Safety
-
-Rollback is a first-class capability:
-
-* Every change is versioned
-* Rollback restores the last known good version
-* Data integrity is preserved
-* Destructive operations are avoided by default
-
-If rollback is unsafe or ambiguous, the change does not execute.
-
----
-
-## Auditability & Compliance
-
-Project-Isotyp maintains a complete audit trail:
-
-* Who proposed a change
-* Who approved or rejected it
-* What evidence was considered
-* What version is currently active
-
-AI is always recorded as an **advisory source**, never as the actor.
-
----
-
-## Exit Strategy (No Platform Lock-In)
-
-Customers can:
-
-* Export final database schemas
-* Export ORM models
-* Export migration history
-* Continue operating without Project-Isotyp at runtime
-
-Project-Isotyp does not impose a hard dependency in production.
-
----
-
-## Initial Scope (v1)
-
-To ensure safety and focus, v1 is intentionally constrained:
-
-* PostgreSQL only
-* EF Core ORM only
-* Additive schema evolution
-* Conservative learning thresholds
-
-Generalization will be driven by real usage, not speculation.
-
----
-
-## Project Status
-
-Project-Isotyp is currently in **active design and early development**.
-
-The focus is on correctness, safety, and trust — not rapid feature expansion.
-
----
-
-## Vision
-
-Project-Isotyp aims to become the **system of record for how data architecture is allowed to evolve** — safely, deliberately, and reversibly.
-
-> Data should change with intent, not accident.
+### Safety First
+- All destructive changes require extra approval
+- Schema locks prevent unintended modifications
+- Rollback scripts are required for all migrations
+
+### Clarity
+- Every change must have justification
+- AI suggestions include reasoning and confidence
+- Impact analysis is required for changes
+
+### Additive Changes Preferred
+- Adding columns/tables is safer than modifying
+- Schema versioning follows semantic versioning
+- Backward compatibility is prioritized
+
+## Configuration
+
+### Connection Strings
+Connection strings are stored locally by agents and referenced by ID. They are never transmitted to the cloud layer.
+
+### appsettings.json (API)
+```json
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Data Source=isotyp.db"
+  }
+}
+```
+
+### Agent Configuration
+```json
+{
+  "AgentKey": "unique-agent-identifier",
+  "AgentName": "Production Agent 1",
+  "CloudApiEndpoint": "https://your-isotyp-api.com",
+  "LocalSecretStorePath": "./secrets",
+  "HeartbeatIntervalSeconds": 30,
+  "ValidationIntervalSeconds": 3600
+}
+```
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Contributing
+
+Contributions are welcome! Please read our contributing guidelines before submitting pull requests.
+
+## Support
+
+For support, please open an issue on GitHub or contact the maintainers.
