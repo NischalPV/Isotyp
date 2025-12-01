@@ -87,18 +87,15 @@ public record IBaseEntity
 /// <typeparam name="TId">The type of the entity identifier.</typeparam>
 public abstract record class Entity<TId> : IBaseEntity, IEquatable<Entity<TId>>
 {
-    /// <summary>
-    /// Backing field for the entity identifier.
-    /// </summary>
-    public TId _Id { get; protected set; } = default!;
+    private TId _id = default!;
 
     /// <summary>
     /// Gets or sets the entity identifier.
     /// </summary>
     public virtual TId Id
     {
-        get => _Id;
-        protected set => _Id = value;
+        get => _id;
+        protected set => _id = value;
     }
 
     #region Equality - Proper entity equality based on ID and type
@@ -392,7 +389,7 @@ public sealed record EntityDeleted<TId>(TId EntityId, string DeletedBy, DateTime
     /// <summary>
     /// Unique event identifier.
     /// </summary>
-    public Guid Id { get; } = Guid.CreateVersion7();
+    public Guid Id { get; } = Guid.NewGuid();
 
     /// <summary>
     /// Correlation id for tracing related operations.
@@ -419,7 +416,7 @@ public sealed record EntityRestored<TId>(TId EntityId, string RestoredBy, DateTi
     /// <summary>
     /// Unique event identifier.
     /// </summary>
-    public Guid Id { get; } = Guid.CreateVersion7();
+    public Guid Id { get; } = Guid.NewGuid();
 
     /// <summary>
     /// Correlation id for tracing related operations.

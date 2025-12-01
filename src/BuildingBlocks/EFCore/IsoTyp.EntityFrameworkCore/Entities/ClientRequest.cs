@@ -10,7 +10,7 @@ public sealed record class ClientRequest : Entity<Guid>
     /// </summary>
     public ClientRequest()
     {
-        _Id = Guid.CreateVersion7();
+        Id = Guid.NewGuid();
     }
 
     /// <summary>
@@ -23,7 +23,7 @@ public sealed record class ClientRequest : Entity<Guid>
     public ClientRequest(string name, string? payload = null, string? owner = null, Guid? id = null)
         : this()
     {
-        _Id = id ?? _Id;
+        Id = id ?? Id;
         Name = name;
         Payload = payload;
         Owner = owner;
