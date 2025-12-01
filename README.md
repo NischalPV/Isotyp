@@ -85,6 +85,12 @@ Isotyp/
 └── Isotyp.sln
 ```
 
+Additional documentation:
+
+- [`docs/ROADMAP.md`](docs/ROADMAP.md): phasing plan to reach enterprise scale and 1M+ concurrent users.
+- [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md): microservice architecture, contracts, and scalability posture.
+- [`docs/CODING_GUIDELINES.md`](docs/CODING_GUIDELINES.md): engineering standards for services, APIs, and testing.
+
 ## Getting Started
 
 ### Prerequisites
