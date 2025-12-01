@@ -28,6 +28,7 @@ public class ClientRequestConfiguration : IEntityTypeConfiguration<ClientRequest
             .HasMaxLength(256);
 
         builder.HasIndex(request => request.Name)
+            .IsUnique()
             .HasDatabaseName("IX_ClientRequest_Name");
     }
 }
