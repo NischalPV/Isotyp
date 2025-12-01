@@ -5,6 +5,8 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{827E0CD3-B72D-47B6-A68D-7590B98EB39B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IsoTyp.EntityFrameworkCore", "src\\BuildingBlocks\\EFCore\\IsoTyp.EntityFrameworkCore\\IsoTyp.EntityFrameworkCore.csproj", "{6ABB15A4-CC7B-4690-95ED-2D29F9E1DFAE}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Isotyp.Core", "src\Isotyp.Core\Isotyp.Core.csproj", "{E43DFD06-5605-4CBF-9354-BABDE33257A8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Isotyp.Application", "src\Isotyp.Application\Isotyp.Application.csproj", "{768F70FD-B2FE-4B30-9BB3-EA94A6DA76AD}"
@@ -115,11 +117,25 @@ Global
 		{2E5A4723-1340-4969-8574-B2ABCC84869C}.Release|x64.Build.0 = Release|Any CPU
 		{2E5A4723-1340-4969-8574-B2ABCC84869C}.Release|x86.ActiveCfg = Release|Any CPU
 		{2E5A4723-1340-4969-8574-B2ABCC84869C}.Release|x86.Build.0 = Release|Any CPU
-	EndGlobalSection
+	
+                {6ABB15A4-CC7B-4690-95ED-2D29F9E1DFAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+                {6ABB15A4-CC7B-4690-95ED-2D29F9E1DFAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+                {6ABB15A4-CC7B-4690-95ED-2D29F9E1DFAE}.Debug|x64.ActiveCfg = Debug|Any CPU
+                {6ABB15A4-CC7B-4690-95ED-2D29F9E1DFAE}.Debug|x64.Build.0 = Debug|Any CPU
+                {6ABB15A4-CC7B-4690-95ED-2D29F9E1DFAE}.Debug|x86.ActiveCfg = Debug|Any CPU
+                {6ABB15A4-CC7B-4690-95ED-2D29F9E1DFAE}.Debug|x86.Build.0 = Debug|Any CPU
+                {6ABB15A4-CC7B-4690-95ED-2D29F9E1DFAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+                {6ABB15A4-CC7B-4690-95ED-2D29F9E1DFAE}.Release|Any CPU.Build.0 = Release|Any CPU
+                {6ABB15A4-CC7B-4690-95ED-2D29F9E1DFAE}.Release|x64.ActiveCfg = Release|Any CPU
+                {6ABB15A4-CC7B-4690-95ED-2D29F9E1DFAE}.Release|x64.Build.0 = Release|Any CPU
+                {6ABB15A4-CC7B-4690-95ED-2D29F9E1DFAE}.Release|x86.ActiveCfg = Release|Any CPU
+                {6ABB15A4-CC7B-4690-95ED-2D29F9E1DFAE}.Release|x86.Build.0 = Release|Any CPU
+EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+                {6ABB15A4-CC7B-4690-95ED-2D29F9E1DFAE} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 		{E43DFD06-5605-4CBF-9354-BABDE33257A8} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 		{768F70FD-B2FE-4B30-9BB3-EA94A6DA76AD} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 		{FDC5E59C-8C77-4555-9787-CC7B7A6936B7} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
