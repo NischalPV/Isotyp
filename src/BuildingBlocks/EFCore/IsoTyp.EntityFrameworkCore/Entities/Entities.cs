@@ -397,7 +397,10 @@ public sealed record EntityDeleted<TId>(TId EntityId, string DeletedBy, DateTime
     /// <summary>
     /// Correlation id for tracing related operations.
     /// </summary>
-    public string CorrelationId { get; set; } = EntityId?.ToString() ?? Guid.NewGuid().ToString();
+    public string CorrelationId { get; set; } = ResolveCorrelationId(EntityId);
+
+    private static string ResolveCorrelationId(TId entityId) =>
+        entityId is null ? Guid.NewGuid().ToString() : entityId.ToString()!;
 }
 
 /// <summary>
@@ -421,7 +424,10 @@ public sealed record EntityRestored<TId>(TId EntityId, string RestoredBy, DateTi
     /// <summary>
     /// Correlation id for tracing related operations.
     /// </summary>
-    public string CorrelationId { get; set; } = EntityId?.ToString() ?? Guid.NewGuid().ToString();
+    public string CorrelationId { get; set; } = ResolveCorrelationId(EntityId);
+
+    private static string ResolveCorrelationId(TId entityId) =>
+        entityId is null ? Guid.NewGuid().ToString() : entityId.ToString()!;
 }
 
 #endregion
