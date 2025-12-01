@@ -11,7 +11,7 @@ public sealed record class AuditTrail : Entity<Guid>
     /// </summary>
     public AuditTrail()
     {
-        _Id = Guid.CreateVersion7();
+        Id = Guid.NewGuid();
     }
 
     /// <summary>
